@@ -15,7 +15,7 @@ pipeline {
     }
 
     stages {
-        stage('检出代码') {
+        stage('检查代码') {
             steps {
                 checkout scm
             }
@@ -57,7 +57,7 @@ pipeline {
                     '''
 
                     // 4. 健康检查（后端不暴露宿主机端口，看运行日志确认启动）
-                    sh 'sleep 2'
+                    sh 'sleep 1'
                     sh 'docker logs ${CONTAINER}'
                 }
             }
