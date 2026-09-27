@@ -5,7 +5,7 @@ cd /d "%~dp0"
 if not exist out mkdir out
 
 echo [1/2] 编译 Java 后端...
-javac -encoding UTF-8 -d out src\Main.java
+javac -encoding UTF-8 -d out src\*.java
 if errorlevel 1 (
   echo 编译失败，请确认已安装 JDK 11+
   pause
