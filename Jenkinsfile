@@ -6,8 +6,6 @@ pipeline {
     environment {
         IMAGE_NAME     = 'demo-java-api'
         IMAGE_TAG      = "${BUILD_NUMBER}-${env.GIT_COMMIT?.take(7) ?: 'local'}"
-        // 本地私有仓库，存放构建好的镜像（供 docker compose / 回滚使用）
-        LOCAL_REGISTRY = 'localhost:5000'
         // 基础镜像仓库：已预推入 eclipse-temurin:11-jdk / 11-jre
         BASE_REGISTRY  = 'localhost:5000'
         NET_NAME       = 'demo-net'
@@ -27,15 +25,6 @@ pipeline {
                     docker.build("${IMAGE_NAME}:${IMAGE_TAG}",
                                  "-f Dockerfile --build-arg BASE_REGISTRY=${BASE_REGISTRY} .")
                 }
-            }
-        }
-
-        stage('推送本地仓库') {
-            steps {
-                sh '''
-                    docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${LOCAL_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
-                    docker push ${LOCAL_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
-                '''
             }
         }
 
